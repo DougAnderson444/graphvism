@@ -1,3 +1,5 @@
 expat-*
 graphviz-*
 demo/target
+viz.wasm
+viz.core.wasm

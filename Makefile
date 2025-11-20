@@ -21,10 +21,10 @@ EXPAT_BUILD_DIR=$(EXPAT_DIR)-wasi-build
 EXPAT_INSTALL_DIR=$(CURDIR)/$(EXPAT_DIR)-wasi-install
 
 # Compiler and linker for WASI
-CFLAGS := -D_WASI_EMULATED_SIGNAL -D_WASI_EMULATED_PROCESS_CLOCKS -mllvm -wasm-enable-sjlj
+CFLAGS := -O3 -g0 -D_WASI_EMULATED_SIGNAL -D_WASI_EMULATED_PROCESS_CLOCKS -mllvm -wasm-enable-sjlj
 LDFLAGS := -lwasi-emulated-signal -Wl,--whole-archive -lc++ -lc++abi -Wl,--no-whole-archive -lwasi-emulated-process-clocks
 CC := $(WASI_SDK_PATH)/bin/clang --sysroot=$(WASI_SYSROOT) $(CFLAGS)
-CXX := $(WASI_SDK_PATH)/bin/clang++ --sysroot=$(WASI_SYSROOT) $(CFLAGS) -fno-exceptions
+CXX := $(WASI_SDK_PATH)/bin/clang++ --sysroot=$(WASI_SYSROOT) $(CFLAGS) -O3 -g0 -fno-exceptions
 AR := $(WASI_SDK_PATH)/bin/llvm-ar
 RANLIB := $(WASI_SDK_PATH)/bin/llvm-ranlib
 LD := $(WASI_SDK_PATH)/bin/wasm-ld

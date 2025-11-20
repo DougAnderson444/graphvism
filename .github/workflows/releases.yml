@@ -41,6 +41,10 @@ jobs:
       - name: Build viz.wasm
         run: make
 
+      - name: Strip WASM binary
+        run: wasm-tools strip viz.wasm -o viz.wasm
+
+
       - name: Upload viz.wasm as release asset
         uses: softprops/action-gh-release@v2
         with:
