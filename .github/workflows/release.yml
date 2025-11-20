@@ -13,16 +13,27 @@ jobs:
 
       - name: Install dependencies
         run: |
+          set -e
           sudo apt-get update
-          sudo apt-get install -y curl python3 build-essential pkg-config
+          sudo apt-get install -y curl python3 build-essential pkg-config xz-utils
+
           # Install wit-bindgen
-          curl -L https://github.com/bytecodealliance/wit-bindgen/releases/latest/download/wit-bindgen-linux-x64.tar.xz | tar -xJ -C /usr/local/bin
+          curl -L -o wit-bindgen-linux-x64.tar.xz https://github.com/bytecodealliance/wit-bindgen/releases/latest/download/wit-bindgen-linux-x64.tar.xz
+          tar -xJf wit-bindgen-linux-x64.tar.xz
+          sudo mv wit-bindgen /usr/local/bin/
+          rm wit-bindgen-linux-x64.tar.xz
+
           # Install wasm-tools
-          curl -L https://github.com/bytecodealliance/wasm-tools/releases/latest/download/wasm-tools-linux-x64.tar.xz | tar -xJ -C /usr/local/bin
+          curl -L -o wasm-tools-linux-x64.tar.xz https://github.com/bytecodealliance/wasm-tools/releases/latest/download/wasm-tools-linux-x64.tar.xz
+          tar -xJf wasm-tools-linux-x64.tar.xz
+          sudo mv wasm-tools /usr/local/bin/
+          rm wasm-tools-linux-x64.tar.xz
+
           # Install wasi-sdk 29
           curl -LO https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-29/wasi-sdk-29.0-x86_64-linux.tar.gz
           tar -xzf wasi-sdk-29.0-x86_64-linux.tar.gz
           sudo mv wasi-sdk-29.0 /opt/wasi-sdk
+          rm wasi-sdk-29.0-x86_64-linux.tar.gz
 
       - name: Build viz.wasm
         run: make
