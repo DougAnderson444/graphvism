@@ -18,16 +18,16 @@ jobs:
           sudo apt-get install -y curl python3 build-essential pkg-config xz-utils
 
           # Install wit-bindgen
-          curl -L -o wit-bindgen-linux-x64.tar.xz https://github.com/bytecodealliance/wit-bindgen/releases/latest/download/wit-bindgen-linux-x64.tar.xz
-          tar -xJf wit-bindgen-linux-x64.tar.xz
-          sudo mv wit-bindgen /usr/local/bin/
-          rm wit-bindgen-linux-x64.tar.xz
+          curl -L -o wit-bindgen.tar.gz https://github.com/bytecodealliance/wit-bindgen/releases/download/v0.48.0/wit-bindgen-0.48.0-x86_64-linux.tar.gz
+          tar -xzf wit-bindgen.tar.gz
+          sudo mv wit-bindgen-0.48.0-x86_64-linux/wit-bindgen /usr/local/bin/
+          rm -rf wit-bindgen.tar.gz wit-bindgen-0.48.0-x86_64-linux
 
           # Install wasm-tools
-          curl -L -o wasm-tools-linux-x64.tar.xz https://github.com/bytecodealliance/wasm-tools/releases/latest/download/wasm-tools-linux-x64.tar.xz
-          tar -xJf wasm-tools-linux-x64.tar.xz
-          sudo mv wasm-tools /usr/local/bin/
-          rm wasm-tools-linux-x64.tar.xz
+          curl -L -o wasm-tools.tar.gz https://github.com/bytecodealliance/wasm-tools/releases/download/v1.241.2/wasm-tools-1.241.2-x86_64-linux.tar.gz
+          tar -xzf wasm-tools.tar.gz
+          sudo mv wasm-tools-1.241.2-x86_64-linux/wasm-tools /usr/local/bin/
+          rm -rf wasm-tools.tar.gz wasm-tools-1.241.2-x86_64-linux
 
           # Install wasi-sdk 29
           curl -LO https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-29/wasi-sdk-29.0-x86_64-linux.tar.gz
