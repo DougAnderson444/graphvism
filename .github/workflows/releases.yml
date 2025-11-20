@@ -1,8 +1,11 @@
-name: Build and Release
+name: Build and Release viz.wasm
 
 on:
   release:
     types: [created]
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -42,5 +45,3 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: viz.wasm
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
