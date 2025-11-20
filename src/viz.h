@@ -46,19 +46,6 @@ typedef struct exports_viz_component_viz_api_context_t exports_viz_component_viz
 
 typedef exports_viz_component_viz_api_context_t* exports_viz_component_viz_api_borrow_context_t;
 
-typedef struct exports_viz_component_viz_api_object_t {
-  uint8_t tag;
-  union {
-    exports_viz_component_viz_api_own_graph_t     graph;
-    exports_viz_component_viz_api_own_node_t     node;
-    exports_viz_component_viz_api_own_edge_t     edge;
-  } val;
-} exports_viz_component_viz_api_object_t;
-
-#define EXPORTS_VIZ_COMPONENT_VIZ_API_OBJECT_GRAPH 0
-#define EXPORTS_VIZ_COMPONENT_VIZ_API_OBJECT_NODE 1
-#define EXPORTS_VIZ_COMPONENT_VIZ_API_OBJECT_EDGE 2
-
 typedef struct exports_viz_component_viz_api_attribute_value_t {
   uint8_t tag;
   union {
@@ -111,7 +98,9 @@ exports_viz_component_viz_api_own_graph_t exports_viz_component_viz_api_add_subg
 void exports_viz_component_viz_api_set_default_graph_attribute(exports_viz_component_viz_api_borrow_graph_t g, viz_string_t *name, exports_viz_component_viz_api_attribute_value_t *value);
 void exports_viz_component_viz_api_set_default_node_attribute(exports_viz_component_viz_api_borrow_graph_t g, viz_string_t *name, exports_viz_component_viz_api_attribute_value_t *value);
 void exports_viz_component_viz_api_set_default_edge_attribute(exports_viz_component_viz_api_borrow_graph_t g, viz_string_t *name, exports_viz_component_viz_api_attribute_value_t *value);
-void exports_viz_component_viz_api_set_attribute(exports_viz_component_viz_api_object_t *obj, viz_string_t *name, exports_viz_component_viz_api_attribute_value_t *value);
+void exports_viz_component_viz_api_set_graph_attribute(exports_viz_component_viz_api_borrow_graph_t g, viz_string_t *name, exports_viz_component_viz_api_attribute_value_t *value);
+void exports_viz_component_viz_api_set_node_attribute(exports_viz_component_viz_api_borrow_graph_t g, viz_string_t *node_name, viz_string_t *name, exports_viz_component_viz_api_attribute_value_t *value);
+void exports_viz_component_viz_api_set_edge_attribute(exports_viz_component_viz_api_borrow_graph_t g, viz_string_t *u_name, viz_string_t *v_name, viz_string_t *name, exports_viz_component_viz_api_attribute_value_t *value);
 exports_viz_component_viz_api_own_context_t exports_viz_component_viz_api_create_context(void);
 bool exports_viz_component_viz_api_layout(exports_viz_component_viz_api_borrow_context_t ctx, exports_viz_component_viz_api_borrow_graph_t g, viz_string_t *engine, viz_string_t *err);
 void exports_viz_component_viz_api_free_layout(exports_viz_component_viz_api_borrow_context_t ctx, exports_viz_component_viz_api_borrow_graph_t g);
@@ -143,8 +132,6 @@ extern void exports_viz_component_viz_api_context_drop_own(exports_viz_component
 extern exports_viz_component_viz_api_own_context_t exports_viz_component_viz_api_context_new(exports_viz_component_viz_api_context_t *rep);
 extern exports_viz_component_viz_api_context_t* exports_viz_component_viz_api_context_rep(exports_viz_component_viz_api_own_context_t handle);
 void exports_viz_component_viz_api_context_destructor(exports_viz_component_viz_api_context_t *rep);
-
-void exports_viz_component_viz_api_object_free(exports_viz_component_viz_api_object_t *ptr);
 
 void exports_viz_component_viz_api_attribute_value_free(exports_viz_component_viz_api_attribute_value_t *ptr);
 

@@ -6,12 +6,6 @@ interface viz-api {
     resource edge {}
     resource context {}
 
-    variant object {
-        graph(graph),
-        node(node),
-        edge(edge)
-    }
-
     /// Set whether to invert the Y coordinate.
     set-y-invert: func(value: s32);
 
@@ -55,8 +49,15 @@ interface viz-api {
     /// Set a default edge attribute.
     set-default-edge-attribute: func(g: borrow<graph>, name: string, value: attribute-value);
 
-    /// Set an attribute on a graph object (graph, node, or edge).
-    set-attribute: func(obj: object, name: string, value: attribute-value);
+    /// Set a graph attribute.
+    set-graph-attribute: func(g: borrow<graph>, name: string, value: attribute-value);
+
+    /// Set a node attribute.
+    set-node-attribute: func(g: borrow<graph>, node-name: string, name: string, value: attribute-value);
+
+    /// Set an edge attribute.
+    set-edge-attribute: func(g: borrow<graph>, u-name: string, v-name: string, name: string, value: attribute-value);
+
 
     /// Create a new Graphviz context.
     create-context: func() -> own<context>;

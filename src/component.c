@@ -273,29 +273,48 @@ void exports_viz_component_viz_api_set_default_edge_attribute(exports_viz_compon
     free(c_value);
 }
 
-void exports_viz_component_viz_api_set_attribute(exports_viz_component_viz_api_object_t *obj, viz_string_t *name, exports_viz_component_viz_api_attribute_value_t *value) {    void* c_obj = NULL;
-    Agraph_t* g = NULL;
-    switch (obj->tag) {
-        case EXPORTS_VIZ_COMPONENT_VIZ_API_OBJECT_GRAPH:
-            c_obj = exports_viz_component_viz_api_graph_rep(obj->val.graph);
-            g = (Agraph_t*)c_obj;
-            break;
-        case EXPORTS_VIZ_COMPONENT_VIZ_API_OBJECT_NODE:
-            c_obj = exports_viz_component_viz_api_node_rep(obj->val.node);
-            g = agraphof(c_obj);
-            break;
-        case EXPORTS_VIZ_COMPONENT_VIZ_API_OBJECT_EDGE:
-            c_obj = exports_viz_component_viz_api_edge_rep(obj->val.edge);
-            g = agraphof(c_obj);
-            break;
-    }
+void exports_viz_component_viz_api_set_graph_attribute(exports_viz_component_viz_api_borrow_graph_t g, viz_string_t *name, exports_viz_component_viz_api_attribute_value_t *value) {
+    Agraph_t *c_g = (Agraph_t*)g;
+    char* c_name = wit_string_to_c_string(name);
+    char* c_value = agstrdup_html_with_free(c_g, value);
+    agsafeset(c_g, c_name, c_value, "");
+    free(c_name);
+    free(c_value);
+}
 
-    if (c_obj) {
+void exports_viz_component_viz_api_set_node_attribute(exports_viz_component_viz_api_borrow_graph_t g, viz_string_t *node_name, viz_string_t *name, exports_viz_component_viz_api_attribute_value_t *value) {
+    Agraph_t *c_g = (Agraph_t*)g;
+    char* c_node_name = wit_string_to_c_string(node_name);
+    Agnode_t *n = agnode(c_g, c_node_name, false);
+    free(c_node_name);
+
+    if (n) {
         char* c_name = wit_string_to_c_string(name);
-        char* c_value = agstrdup_html_with_free(g, value);
-        agsafeset(c_obj, c_name, c_value, "");
+        char* c_value = agstrdup_html_with_free(c_g, value);
+        agsafeset(n, c_name, c_value, "");
         free(c_name);
         free(c_value);
+    }
+}
+
+void exports_viz_component_viz_api_set_edge_attribute(exports_viz_component_viz_api_borrow_graph_t g, viz_string_t *u_name, viz_string_t *v_name, viz_string_t *name, exports_viz_component_viz_api_attribute_value_t *value) {
+    Agraph_t *c_g = (Agraph_t*)g;
+    char* c_u_name = wit_string_to_c_string(u_name);
+    char* c_v_name = wit_string_to_c_string(v_name);
+    Agnode_t *u = agnode(c_g, c_u_name, false);
+    Agnode_t *v = agnode(c_g, c_v_name, false);
+    free(c_u_name);
+    free(c_v_name);
+
+    if (u && v) {
+        Agedge_t *e = agedge(c_g, u, v, NULL, false);
+        if (e) {
+            char* c_name = wit_string_to_c_string(name);
+            char* c_value = agstrdup_html_with_free(c_g, value);
+            agsafeset(e, c_name, c_value, "");
+            free(c_name);
+            free(c_value);
+        }
     }
 }
 

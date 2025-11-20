@@ -54,6 +54,8 @@ void __wasm_export_exports_viz_component_viz_api_read_one_graph_post_return(uint
 
 
 
+
+
 __attribute__((__weak__, __export_name__("cabi_post_viz:component/viz-api#layout")))
 void __wasm_export_exports_viz_component_viz_api_layout_post_return(uint8_t * arg0) {
   switch ((int32_t) (int32_t) *((uint8_t*) (arg0 + 0))) {
@@ -221,20 +223,6 @@ exports_viz_component_viz_api_context_t* exports_viz_component_viz_api_context_r
 __attribute__((__export_name__("viz:component/viz-api#[dtor]context")))
 void __wasm_export_exports_viz_component_viz_api_context_dtor(exports_viz_component_viz_api_context_t* arg) {
   exports_viz_component_viz_api_context_destructor(arg);
-}
-
-void exports_viz_component_viz_api_object_free(exports_viz_component_viz_api_object_t *ptr) {
-  switch ((int32_t) ptr->tag) {
-    case 0: {
-      break;
-    }
-    case 1: {
-      break;
-    }
-    case 2: {
-      break;
-    }
-  }
 }
 
 void exports_viz_component_viz_api_attribute_value_free(exports_viz_component_viz_api_attribute_value_t *ptr) {
@@ -449,40 +437,64 @@ void __wasm_export_exports_viz_component_viz_api_set_default_edge_attribute(int3
   exports_viz_component_viz_api_set_default_edge_attribute(((exports_viz_component_viz_api_graph_t*) arg), &arg5, &arg6);
 }
 
-__attribute__((__export_name__("viz:component/viz-api#set-attribute")))
-void __wasm_export_exports_viz_component_viz_api_set_attribute(int32_t arg, int32_t arg0, uint8_t * arg1, size_t arg2, int32_t arg3, uint8_t * arg4, size_t arg5) {
-  exports_viz_component_viz_api_object_t variant;
-  variant.tag = arg;
+__attribute__((__export_name__("viz:component/viz-api#set-graph-attribute")))
+void __wasm_export_exports_viz_component_viz_api_set_graph_attribute(int32_t arg, uint8_t * arg0, size_t arg1, int32_t arg2, uint8_t * arg3, size_t arg4) {
+  exports_viz_component_viz_api_attribute_value_t variant;
+  variant.tag = arg2;
   switch ((int32_t) variant.tag) {
     case 0: {
-      variant.val.graph = (exports_viz_component_viz_api_own_graph_t) { arg0 };
+      variant.val.plain = (viz_string_t) { (uint8_t*)(arg3), (arg4) };
       break;
     }
     case 1: {
-      variant.val.node = (exports_viz_component_viz_api_own_node_t) { arg0 };
-      break;
-    }
-    case 2: {
-      variant.val.edge = (exports_viz_component_viz_api_own_edge_t) { arg0 };
+      variant.val.html = (viz_string_t) { (uint8_t*)(arg3), (arg4) };
       break;
     }
   }
-  exports_viz_component_viz_api_attribute_value_t variant6;
-  variant6.tag = arg3;
-  switch ((int32_t) variant6.tag) {
+  viz_string_t arg5 = (viz_string_t) { (uint8_t*)(arg0), (arg1) };
+  exports_viz_component_viz_api_attribute_value_t arg6 = variant;
+  exports_viz_component_viz_api_set_graph_attribute(((exports_viz_component_viz_api_graph_t*) arg), &arg5, &arg6);
+}
+
+__attribute__((__export_name__("viz:component/viz-api#set-node-attribute")))
+void __wasm_export_exports_viz_component_viz_api_set_node_attribute(int32_t arg, uint8_t * arg0, size_t arg1, uint8_t * arg2, size_t arg3, int32_t arg4, uint8_t * arg5, size_t arg6) {
+  exports_viz_component_viz_api_attribute_value_t variant;
+  variant.tag = arg4;
+  switch ((int32_t) variant.tag) {
     case 0: {
-      variant6.val.plain = (viz_string_t) { (uint8_t*)(arg4), (arg5) };
+      variant.val.plain = (viz_string_t) { (uint8_t*)(arg5), (arg6) };
       break;
     }
     case 1: {
-      variant6.val.html = (viz_string_t) { (uint8_t*)(arg4), (arg5) };
+      variant.val.html = (viz_string_t) { (uint8_t*)(arg5), (arg6) };
       break;
     }
   }
-  exports_viz_component_viz_api_object_t arg7 = variant;
-  viz_string_t arg8 = (viz_string_t) { (uint8_t*)(arg1), (arg2) };
-  exports_viz_component_viz_api_attribute_value_t arg9 = variant6;
-  exports_viz_component_viz_api_set_attribute(&arg7, &arg8, &arg9);
+  viz_string_t arg7 = (viz_string_t) { (uint8_t*)(arg0), (arg1) };
+  viz_string_t arg8 = (viz_string_t) { (uint8_t*)(arg2), (arg3) };
+  exports_viz_component_viz_api_attribute_value_t arg9 = variant;
+  exports_viz_component_viz_api_set_node_attribute(((exports_viz_component_viz_api_graph_t*) arg), &arg7, &arg8, &arg9);
+}
+
+__attribute__((__export_name__("viz:component/viz-api#set-edge-attribute")))
+void __wasm_export_exports_viz_component_viz_api_set_edge_attribute(int32_t arg, uint8_t * arg0, size_t arg1, uint8_t * arg2, size_t arg3, uint8_t * arg4, size_t arg5, int32_t arg6, uint8_t * arg7, size_t arg8) {
+  exports_viz_component_viz_api_attribute_value_t variant;
+  variant.tag = arg6;
+  switch ((int32_t) variant.tag) {
+    case 0: {
+      variant.val.plain = (viz_string_t) { (uint8_t*)(arg7), (arg8) };
+      break;
+    }
+    case 1: {
+      variant.val.html = (viz_string_t) { (uint8_t*)(arg7), (arg8) };
+      break;
+    }
+  }
+  viz_string_t arg9 = (viz_string_t) { (uint8_t*)(arg0), (arg1) };
+  viz_string_t arg10 = (viz_string_t) { (uint8_t*)(arg2), (arg3) };
+  viz_string_t arg11 = (viz_string_t) { (uint8_t*)(arg4), (arg5) };
+  exports_viz_component_viz_api_attribute_value_t arg12 = variant;
+  exports_viz_component_viz_api_set_edge_attribute(((exports_viz_component_viz_api_graph_t*) arg), &arg9, &arg10, &arg11, &arg12);
 }
 
 __attribute__((__export_name__("viz:component/viz-api#create-context")))
