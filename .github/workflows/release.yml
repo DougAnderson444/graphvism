@@ -1,0 +1,35 @@
+name: Build and Release viz.wasm
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl python3 build-essential pkg-config
+          # Install wit-bindgen
+          curl -L https://github.com/bytecodealliance/wit-bindgen/releases/latest/download/wit-bindgen-linux-x64.tar.xz | tar -xJ -C /usr/local/bin
+          # Install wasm-tools
+          curl -L https://github.com/bytecodealliance/wasm-tools/releases/latest/download/wasm-tools-linux-x64.tar.xz | tar -xJ -C /usr/local/bin
+          # Install wasi-sdk 29
+          curl -LO https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-29/wasi-sdk-29.0-x86_64-linux.tar.gz
+          tar -xzf wasi-sdk-29.0-x86_64-linux.tar.gz
+          sudo mv wasi-sdk-29.0 /opt/wasi-sdk
+
+      - name: Build viz.wasm
+        run: make
+
+      - name: Upload viz.wasm as release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: viz.wasm
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
