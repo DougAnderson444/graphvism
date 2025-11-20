@@ -8,6 +8,10 @@ Graphvizm builds Graphviz as a WebAssembly Component (WASI Preview 2), enabling 
 
 This allows you to use Graphviz's layout and rendering capabilities from any language that supports the Wasm component model, such as Rust, Python, Go, and more.
 
+### Download 
+
+Pre-built version is on the [Releases](https://github.com/DougAnderson444/graphvism/releases) page.
+
 ## Table of Contents
 - [Features](#features)
 - [Prerequisites](#prerequisites)
@@ -59,6 +63,8 @@ To clean up build artifacts, you can run `make clean`. To remove downloaded sour
 ## Usage
 
 The build process produces a Wasm component `viz.wasm`. You can use this component in any environment that supports WASI Preview 2, such as a Rust application using `wasmtime`.
+
+Or you can download a pre-built version from the [Releases](https://github.com/DougAnderson444/graphvism/releases) page.
 
 Here is a short example of how to use the component to render a DOT string to SVG:
 
