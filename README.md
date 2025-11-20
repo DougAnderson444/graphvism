@@ -2,6 +2,8 @@
 
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
+> _Portable Graphviz anywhere WebAssembly (WASI) runs, in any language you prefer_
+
 Graphvizm builds Graphviz as a WebAssembly Component (WASI Preview 2), enabling native and cross-platform usage without relying on emscripten or JavaScript. Inspired by [viz.js](https://github.com/mdaines/viz.js), but designed for modern WASI environments.
 
 This allows you to use Graphviz's layout and rendering capabilities from any language that supports the Wasm component model, such as Rust, Python, Go, and more.
