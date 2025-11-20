@@ -237,6 +237,8 @@ $(COMPONENT_WASM): component-core wasi-adapter
 	@echo "Creating WASM component (adapting WASI preview1 -> preview2)..."
 	@echo "Using adapter file: $(WASI_ADAPTER_NAME)"
 	wasm-tools component new $(CORE_WASM) -o $@ --adapt wasi_snapshot_preview1=$(WASI_ADAPTER_NAME)
+	wasm-tools strip $@ -o $@
+
 
 # --- Validation helpers ---
 
