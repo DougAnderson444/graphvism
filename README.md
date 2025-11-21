@@ -16,7 +16,8 @@ Pre-built version is on the [Releases](https://github.com/DougAnderson444/graphv
 - [Features](#features)
 - [Prerequisites](#prerequisites)
 - [Build](#build)
-- [Usage](#usage)
+- [Reference Implementation: Rust Crate](#reference-implementation-rust-crate)
+- [Low-Level Usage Example](#low-level-usage-example)
 - [API Overview](#api-overview)
 - [Demo](#demo)
 - [License](#license)
@@ -39,7 +40,7 @@ Before building, you need to install the following tools:
 *   **curl**: For downloading dependencies.
 *   **[wasi-sdk](https://github.com/WebAssembly/wasi-sdk)**: Required for compiling C/C++ code to WASI. The `Makefile` expects it to be at `/opt/wasi-sdk`. You can override this by setting the `WASI_SDK_PATH` environment variable.
 *   **[wit-bindgen-cli](https://github.com/bytecodealliance/wit-bindgen)**: For generating bindings from the WIT definition. Install with `cargo install wit-bindgen-cli`.
-*   **Rust and Cargo**: Required to run the demo.
+*   **Rust and Cargo**: Required to run the demo and the reference implementation.
 
 ## Build
 
@@ -60,13 +61,19 @@ The final component will be located at the root of the project: `viz.wasm`.
 
 To clean up build artifacts, you can run `make clean`. To remove downloaded sources as well, run `make super-clean`.
 
-## Usage
+## Reference Implementation: Rust Crate
 
-The build process produces a Wasm component `viz.wasm`. You can use this component in any environment that supports WASI Preview 2, such as a Rust application using `wasmtime`.
+For Rust developers, the easiest way to use this component is through the provided **`graphvizm`** crate, which serves as the reference implementation.
 
-Or you can download a pre-built version from the [Releases](https://github.com/DougAnderson444/graphvism/releases) page.
+The crate bundles the pre-compiled `viz.wasm` component and offers a high-level, idiomatic Rust API that handles all the low-level `wasmtime` setup for you.
 
-Here is a short example of how to use the component to render a DOT string to SVG:
+**➡️ For installation and usage instructions, see the crate's README: [crates/graphvizm/README.md](./crates/graphvizm/README.md)**
+
+## Low-Level Usage Example
+
+The build process produces a Wasm component `viz.wasm`. You can use this component in any environment that supports WASI Preview 2. For Rust developers, we recommend using the [reference implementation crate](#reference-implementation-rust-crate) for a simpler experience.
+
+The following example demonstrates how to load and interact with the component directly using the `wasmtime` crate:
 
 ```rust
 use anyhow::Context;
