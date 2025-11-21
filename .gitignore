@@ -1,5 +1,8 @@
 expat-*
 graphviz-*
 demo/target
-viz.wasm
 viz.core.wasm
+crates/graphvizm/target
+# Ignore the Wasm build artifact at the project root
+/viz.wasm
+!/crates/graphvizm/vendor/viz.wasm
