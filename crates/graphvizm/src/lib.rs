@@ -41,7 +41,7 @@ impl Graphvizm {
     pub fn new() -> Result<Self, GraphvizmError> {
         let mut config = Config::new();
         config.wasm_component_model(true);
-        let engine = Engine::new(&config).map_err(|e| GraphvizmError::EngineInit(e.to_string()))?;
+        let engine = Engine::new(&config)?;
 
         // include_bytes! works with `concat!` and `env!`, so this is fine.
         let component_bytes = include_bytes!(concat!(env!("OUT_DIR"), "/viz.wasm"));
@@ -52,8 +52,7 @@ impl Graphvizm {
 
     pub fn render_dot(&self, dot: &str) -> Result<String, GraphvizmError> {
         let mut linker: Linker<MyState> = Linker::new(&self.engine);
-        wasmtime_wasi::p2::add_to_linker_sync(&mut linker)
-            .map_err(|e| GraphvizmError::Wasmtime(e.into()))?;
+        wasmtime_wasi::p2::add_to_linker_sync(&mut linker)?;
 
         let wasi = WasiCtx::builder().inherit_stdio().inherit_args().build();
         let state = MyState {
