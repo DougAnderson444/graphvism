@@ -26,9 +26,11 @@ impl WasiView for MyState {
     }
 }
 
+#[derive(Clone)]
 pub struct Graphvizm {
     engine: Engine,
     component: Component,
+    linker: Linker<MyState>, // reuse linker setup
 }
 
 impl Default for Graphvizm {
@@ -43,17 +45,20 @@ impl Graphvizm {
         config.wasm_component_model(true);
         let engine = Engine::new(&config)?;
 
-        // include_bytes! works with `concat!` and `env!`, so this is fine.
         let component_bytes = include_bytes!(concat!(env!("OUT_DIR"), "/viz.wasm"));
         let component = Component::from_binary(&engine, component_bytes)?;
 
-        Ok(Self { engine, component })
+        let mut linker = Linker::new(&engine);
+        wasmtime_wasi::p2::add_to_linker_sync(&mut linker)?;
+
+        Ok(Self {
+            engine,
+            component,
+            linker,
+        })
     }
 
     pub fn render_dot(&self, dot: &str) -> Result<String, GraphvizmError> {
-        let mut linker: Linker<MyState> = Linker::new(&self.engine);
-        wasmtime_wasi::p2::add_to_linker_sync(&mut linker)?;
-
         let wasi = WasiCtx::builder().inherit_stdio().inherit_args().build();
         let state = MyState {
             wasi,
@@ -61,7 +66,7 @@ impl Graphvizm {
         };
         let mut store = Store::new(&self.engine, state);
 
-        let viz = Viz::instantiate(&mut store, &self.component, &linker)?;
+        let viz = Viz::instantiate(&mut store, &self.component, &self.linker)?;
         let iface = &viz.interface0;
         let ctx = iface.call_create_context(&mut store)?;
 
